@@ -96,11 +96,22 @@ class PlanktoscopeController :
             self.wait_for_pump()
 
     @logcall
+    def segmentation(self):
+        self._clear_last()
+        payload = f'{"action":"segment","path":["/home/pi/data/img/2023-07-24/monitoring"],"settings":{"force":false,"recursive":true,"ecotaxa":false,"keep":true,"process_id":1} }'
+        self.mqtt.publish("segmenter/segment", payload)
+        self.wait_for_segmentation()
+
+    @logcall
     def configure_imager(self):
         self._clear_last()
         payload = {"action":"update_config","config": self._imager_config()}
         self.mqtt.publish('imager/image', json.dumps(payload))
         self.wait_for_imager_config()
+
+    @logcall
+    def wait_for_segmentation(self):
+        self._wait_for('status/segmenter','{"status":"Done"}')
 
     @logcall
     def wait_for_pump(self):

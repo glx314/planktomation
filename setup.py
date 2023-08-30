@@ -13,10 +13,10 @@ except Exception:
 setup(
 
 # Project name: 
-name='',
+name='planktomation',
 
 # Packages to include in the distribution: 
-packages=find_packages(','),
+packages=['planktomation'],
 
 # Project version number:
 version='',
